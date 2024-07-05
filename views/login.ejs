@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+</head>
+
+<body>
+    <% if (failed) { %>
+        <h1>Incorrect username or passowrd.</h1>
+        <% } %>
+            <h1>Sign in</h1>
+            <form action="/auth/login" method="post">
+                <section>
+                    <label for="user_name">Username</label>
+                    <input type="text" id="user_name" name="user_name" autocomplete="username" required autofocus>
+                </section>
+                <section>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required>
+                </section>
+                <button type="submit">Sign in</button>
+                <a href="/auth/signup">Need to make a new account?</a>
+            </form>
+
+</body>
+
+</html>

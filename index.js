@@ -1,0 +1,58 @@
+/**
+ * index.js
+ * This is your main app entry point
+ */
+
+// Set up express, bodyparser and EJS
+const express = require('express')
+const app = express()
+const port = 3000
+const passport = require('passport')
+const session = require('express-session')
+
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
+app.set('view engine', 'ejs') // set the app to use ejs for rendering
+app.use(express.static(__dirname + '/public')) // set location of static files
+
+// Set up SQLite
+// Items in the global namespace are accessible throught out the node application
+const sqlite3 = require('sqlite3').verbose()
+global.db = new sqlite3.Database('./database.db', function (err) {
+  if (err) {
+    console.error(err)
+    process.exit(1) // bail out we can't connect to the DB
+  } else {
+    console.log('Database connected')
+    global.db.run('PRAGMA foreign_keys=ON') // tell SQLite to pay attention to foreign key constraints
+  }
+})
+
+app.use(session({ secret: 'SECRETKEY', resave: true, saveUninitialized: true }))
+app.use(passport.initialize())
+app.use(passport.session())
+
+// Handle requests to the home page
+app.get('/', (req, res) => {
+  if (req.user) {
+    res.render('index.ejs', { username: req.user.user_name })
+  } else {
+    res.redirect('/auth/login')
+  }
+})
+
+// Add all the route handlers in usersRoutes to the app under the path /users
+const usersRoutes = require('./routes/users')
+app.use('/users', usersRoutes)
+
+const authRoutes = require('./routes/auth')
+app.use('/auth', authRoutes)
+
+// Make the web application listen for HTTP requests
+app.listen(port, (error) => {
+  if (error) {
+    console.log('The server did not start: ', port)
+  }
+  console.log(`Example app listening on port ${port}`)
+})
