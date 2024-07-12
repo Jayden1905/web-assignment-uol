@@ -7,7 +7,7 @@
 <section>
   <label for="description" class="input input-bordered flex items-center gap-2">
     Description
-    <input value="<%= post.description %>" class="grow" placeholder="Description" type="text" id="description" name="description" required autofocus>
+    <input value="<%= post.description %>" class="grow" placeholder="Description" type="text" id="description" name="description" required>
   </label>
 </section>
 <section>
@@ -15,12 +15,15 @@
     <div class="label">
       <span class="label-text text-lg">Content</span>
     </div>
-    <textarea class="textarea textarea-bordered h-24" placeholder="Content" id="content" name="content">
-        <%= post.content %>
-    </textarea>
+    <textarea class="textarea textarea-bordered h-24" placeholder="Content" id="content" name="content" required><%= post.content %></textarea>
   </label>
 </section>
 <section>
-  <input value="<%= post.published %>" type="checkbox" id="published" name="published" checked="checked" class="toggle">
+  <label class="form-control">
+    <div class="label">
+      <span class="label-text text-lg">Published</span>
+    </div>
+    <input <%= post.published === 'on' ? checked="checked" : "" %> type="checkbox" id="published" name="published" class="toggle">
+  </label>
 </section>
 <button type="submit" class="btn btn-accent text-lg tracking-wider">Save</button>

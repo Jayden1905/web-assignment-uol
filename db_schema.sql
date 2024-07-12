@@ -13,28 +13,30 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     content TEXT NOT NULL,
-    published BOOLEAN NOT NULL,
+    published TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sanitized_content TEXT NOT NULL,
     --the user that wrote the blog post
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users (id)
-);
-CREATE TABLE IF NOT EXISTS comments (
-    comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    content TEXT NOT NULL,
-    --the user that wrote the comment
-    user_id INT,
-    --the blog post that the comment is on
-    blog_post_id INT,
-    FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (blog_post_id) REFERENCES blog_posts (blog_post_id)
 );
 CREATE TABLE IF NOT EXISTS likes (
     like_id INTEGER PRIMARY KEY AUTOINCREMENT,
     --the user that liked the blog post
     user_id INT,
     --the blog post that the like is on
+    blog_post_id INT,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (blog_post_id) REFERENCES blog_posts (blog_post_id)
+);
+CREATE TABLE IF NOT EXISTS comments (
+    comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    --the user that wrote the comment
+    user_id INT,
+    user_name TEXT NOT NULL,
+    --the blog post that the comment is on
     blog_post_id INT,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (blog_post_id) REFERENCES blog_posts (blog_post_id)

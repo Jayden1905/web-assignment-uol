@@ -9,6 +9,7 @@ const app = express()
 const port = 3000
 const passport = require('passport')
 const session = require('express-session')
+const { runQuery } = require('./utils')
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -40,9 +41,13 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Handle requests to the home page
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   if (req.user) {
-    res.render('index.ejs', { user: req.user })
+    const query =
+      'SELECT * FROM blog_posts WHERE published = "on" ORDER BY created_at DESC;'
+    const posts = await runQuery(query)
+
+    res.render('index.ejs', { user: req.user, posts: posts })
   } else {
     res.redirect('/auth/login')
   }

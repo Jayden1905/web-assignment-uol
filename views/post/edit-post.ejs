@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit post</title>
+  <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+
+<body>
+  <%- include("../nav/_nav") %>
+
+  <section class="p-4 relative top-24">
+    <form action="/blog/update-post/<%= post.blog_post_id %>" class="flex flex-col gap-4" method="post">
+      <%- include('../form/_form') %>
+    </form>
+  </section>
+</body>
+
+</html>

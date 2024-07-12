@@ -13,13 +13,23 @@
   <%- include("nav/_nav") %>
 
   <section class="relative top-24 p-4">
-    <nav>
-      <h1>TopG</h1>
-    </nav>
-
-    <h1>
-      Welcome to Blog, <%= user.user_name %>
-    </h1>
+    <div class="flex flex-col gap-6">
+      <% posts.forEach(post  => { %>
+      <div class="card bg-base-300 w-full shadow-xl">
+        <div class="card-body">
+          <h1 class="text-4xl font-bold"><%= post.title %></h1>
+          <h2 class="opacity-70"><%= new Date(post.created_at).toDateString() %></h2>
+          <p class="text-lg"><%= post.description %></p>
+          <div class="flex gap-2">
+            <a href="/blog/<%= post.blog_post_id %>" class="btn btn-md btn-secondary text-lg text-white">Read More</a>
+            <% if (user.id === post.user_id) { %>
+            <a href="/blog/edit-post/<%= post.blog_post_id %>" class="btn btn-md btn-accent text-lg text-white">Edit</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
 </body>
 
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= post.title %></title>
+  <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+
+<body>
+  <%- include('../nav/_nav') %>
+
+  <section class="relative top-24 p-4 flex flex-col gap-2">
+    <h1 class="text-4xl font-bold"><%= post.title %></h1>
+    <h2 class="opacity-70 text-lg"><%= new Date(post.created_at).toDateString() %></h2>
+    <div class="flex gap-2">
+      <a href="/" class="btn btn-secondary w-32 text-lg text-white">All Blogs</a>
+      <% if (user.id === post.user_id) { %>
+      <a href="/blog/edit-post/<%= post.blog_post_id %>" class="btn btn-md btn-accent text-lg text-white">Edit</a>
+      <% } %>
+    </div>
+    <p class="text-2xl"><%= post.description %></p>
+    <div class="prose mt-8 w-full">
+      <%- post.sanitized_content %>
+    </div>
+
+    <form action="/blog/like-post/<%= post.blog_post_id %>" method="post" class="w-18 h-18">
+      <button class="btn flex flex-row btn-primary text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        <span><%= likeCount %></span>
+      </button>
+    </form>
+
+    <div>
+      <h1 class="text-xl my-4">Comments: </h1>
+      <% if (comments.length ===0) { %>
+      No comments yet !
+      <% } %>
+      <div class="flex flex-col gap-2">
+        <% comments.forEach(comment => { %>
+        <div class="card bg-base-300 w-full shadow-xl">
+          <div class="card-body">
+            <h1 class="card-title">username: <%= comment.user_name %></h1>
+            <p><%= comment.content %></p>
+            <% if (user.id === post.user_id) { %>
+            <form action="/blog/delete-comment/<%= comment.comment_id %>" method="post">
+              <button type="submit" class="btn btn-error">Delete</button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <form action="/blog/comment-post/<%= post.blog_post_id %>" method="post">
+      <div class="flex flex-col gap-2">
+        <textarea name="comment" id="comment" class="w-full h-32 p-2" required></textarea>
+        <button type="submit" class="btn btn-primary w-32 text-white">Comment</button>
+      </div>
+    </form>
+  </section>
+</body>
+
+</html>
