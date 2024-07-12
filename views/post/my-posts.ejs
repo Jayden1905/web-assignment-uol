@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Posts</title>
+  <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+
+<body>
+  <%- include("../nav/_nav") %>
+
+  <section class="relative top-24 p-4 flex flex-col gap-4">
+    <% posts.forEach(post => { %>
+    <div class="card bg-base-300 w-full shadow-xl">
+      <div class="card-body">
+        <h1 class="text-4xl font-bold"><%= post.title %></h1>
+        <h2 class="opacity-70"><%= new Date(post.created_at).toDateString() %></h2>
+        <p class="text-lg"><%= post.description %></p>
+        <div class="flex gap-2">
+          <form action="/blog/delete-post/<%= post.blog_post_id %>" method="post">
+            <button type="submit" class="btn btn-md text-lg btn-error text-white">Delete</button>
+          </form>
+          <a href="/blog/edit-post/<%= post.blog_post_id %>" class="btn btn-md btn-accent text-lg text-white">Edit</a>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </section>
+</body>
+
+</html>

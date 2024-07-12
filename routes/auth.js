@@ -72,7 +72,7 @@ passport.deserializeUser(async (user_name, done) => {
 
 router.get('/login', (req, res, next) => {
   const failed = req.query.failed
-  res.render('login.ejs', { failed: failed })
+  res.render('auth/login.ejs', { failed: failed })
 })
 
 router.post('/login', (req, res, next) => {
@@ -91,7 +91,7 @@ router.post('/login', (req, res, next) => {
 
 router.get('/signup', (req, res, next) => {
   const failed = req.query.failed
-  res.render('signup.ejs', { failed: failed })
+  res.render('auth/signup.ejs', { failed: failed })
 })
 
 router.post('/signup', async (req, res, next) => {

@@ -16,15 +16,11 @@ const router = express.Router()
  * @desc Display all the users
  */
 router.get('/list-users', async (req, res, next) => {
-  let loading = true // Initialize loading to true
   try {
-    const [users, emails] = await Promise.all([
-      runQuery('SELECT * FROM users'),
-      runQuery('SELECT * FROM email_accounts'),
-    ])
-    loading = false // Set loading to false once data is fetched
+    const users = await runQuery('SELECT * FROM users')
 
-    res.render('list-users.ejs', { users, emails, loading })
+    // response with the list of users
+    res.json({ users })
   } catch (err) {
     next(err)
   }

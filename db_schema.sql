@@ -1,36 +1,42 @@
-
 -- This makes sure that foreign_key constraints are observed and that errors will be thrown for violations
-PRAGMA foreign_keys=ON;
-
+PRAGMA foreign_keys = ON;
 BEGIN TRANSACTION;
-
 -- Create your tables with SQL commands here (watch out for slight syntactical differences with SQLite vs MySQL)
-
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_name TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     salt TEXT NOT NULL
 );
-
-CREATE TABLE IF NOT EXISTS email_accounts (
-    email_account_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email_address TEXT NOT NULL,
-    id  INT, --the user that the email account belongs to
-    FOREIGN KEY (id) REFERENCES users(id)
+CREATE TABLE IF NOT EXISTS blog_posts (
+    blog_post_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    content TEXT NOT NULL,
+    published BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    --the user that wrote the blog post
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );
-
--- Insert default data (if necessary here)
-
--- Set up three users
-INSERT INTO users ('user_name', 'password', 'salt') VALUES ('Simon Star', 'password1', 'salt1');
-INSERT INTO users ('user_name', 'password', 'salt') VALUES ('Dianne Dean', 'password2', 'salt2');
-INSERT INTO users ('user_name', 'password', 'salt') VALUES ('Harry Hilbert', 'password3', 'salt3');
-
--- Give Simon two email addresses and Diane one, but Harry has none
-INSERT INTO email_accounts ('email_address', 'id') VALUES ('simon@gmail.com', 1);
-INSERT INTO email_accounts ('email_address', 'id') VALUES ('simon@hotmail.com', 1);
-INSERT INTO email_accounts ('email_address', 'id') VALUES ('dianne@yahoo.co.uk', 2);
-
+CREATE TABLE IF NOT EXISTS comments (
+    comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    --the user that wrote the comment
+    user_id INT,
+    --the blog post that the comment is on
+    blog_post_id INT,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (blog_post_id) REFERENCES blog_posts (blog_post_id)
+);
+CREATE TABLE IF NOT EXISTS likes (
+    like_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    --the user that liked the blog post
+    user_id INT,
+    --the blog post that the like is on
+    blog_post_id INT,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (blog_post_id) REFERENCES blog_posts (blog_post_id)
+);
 COMMIT;
-

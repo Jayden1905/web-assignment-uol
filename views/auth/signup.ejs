@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup page</title>
+  <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+
+<body class="flex flex-col items-center justify-center w-full h-screen">
+
+  <h1 class="text-2xl mb-2 font-bold tracking-wide">Signup Page</h1>
+
+  <form class="flex flex-col w-96 mx-auto bg-accent px-5 py-7 rounded-lg shadow-xl" action="/auth/signup" method="post">
+    <section>
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Username</span>
+        </div>
+        <input type="text" placeholder="Username" class="input input-bordered <% if (failed) { %>
+         input-error
+        <% } %> w-full" id="user_name" name="user_name" autocomplete="username" required autofocus />
+        <div class="label">
+          <span class="text-md text-error"><% if (failed) { %>
+            This username already have an account.
+            <% } %></span>
+        </div>
+      </label>
+    </section>
+    <section>
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Password</span>
+        </div>
+        <input type="password" placeholder="Password" class="input input-bordered w-full" id="password" name="password" autocomplete="current-password" required />
+      </label>
+    </section>
+    <button type="submit" class="my-3 btn btn-primary text-white text-lg tracking-wider">Sign in</button>
+    <a href="/auth/login" class="link font-bold">Already have an account?</a>
+  </form>
+
+</body>
+
+</html>

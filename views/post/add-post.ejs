@@ -4,22 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create post</title>
   <link rel="stylesheet" href="/stylesheets/output.css">
-  <title>Blog</title>
 </head>
 
 <body>
+  <%- include("../nav/_nav") %>
 
-  <%- include("nav/_nav") %>
-
-  <section class="relative top-24 p-4">
-    <nav>
-      <h1>TopG</h1>
-    </nav>
-
-    <h1>
-      Welcome to Blog, <%= user.user_name %>
-    </h1>
+  <section class="p-4 relative top-24">
+    <form action="/blog/create-post" class="flex flex-col gap-4" method="post">
+      <%- include('../form/_form') %>
+    </form>
+  </section>
 </body>
 
 </html>

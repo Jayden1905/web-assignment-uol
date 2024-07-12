@@ -29,14 +29,20 @@ global.db = new sqlite3.Database('./database.db', function (err) {
   }
 })
 
-app.use(session({ secret: 'SECRETKEY', resave: true, saveUninitialized: true }))
+app.use(
+  session({
+    secret: 'SECRETKEY',
+    resave: true,
+    saveUninitialized: true,
+  })
+)
 app.use(passport.initialize())
 app.use(passport.session())
 
 // Handle requests to the home page
 app.get('/', (req, res) => {
   if (req.user) {
-    res.render('index.ejs', { username: req.user.user_name })
+    res.render('index.ejs', { user: req.user })
   } else {
     res.redirect('/auth/login')
   }
@@ -48,6 +54,9 @@ app.use('/users', usersRoutes)
 
 const authRoutes = require('./routes/auth')
 app.use('/auth', authRoutes)
+
+const blogRoutes = require('./routes/blog')
+app.use('/blog', blogRoutes)
 
 // Make the web application listen for HTTP requests
 app.listen(port, (error) => {

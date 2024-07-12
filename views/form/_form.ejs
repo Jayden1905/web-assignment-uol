@@ -1,0 +1,26 @@
+<section>
+  <label for="title" class="input input-bordered flex items-center gap-2">
+    Title
+    <input value="<%= post.title %>" class="grow" placeholder="Title" type="text" id="title" name="title" required autofocus>
+  </label>
+</section>
+<section>
+  <label for="description" class="input input-bordered flex items-center gap-2">
+    Description
+    <input value="<%= post.description %>" class="grow" placeholder="Description" type="text" id="description" name="description" required autofocus>
+  </label>
+</section>
+<section>
+  <label class="form-control">
+    <div class="label">
+      <span class="label-text text-lg">Content</span>
+    </div>
+    <textarea class="textarea textarea-bordered h-24" placeholder="Content" id="content" name="content">
+        <%= post.content %>
+    </textarea>
+  </label>
+</section>
+<section>
+  <input value="<%= post.published %>" type="checkbox" id="published" name="published" checked="checked" class="toggle">
+</section>
+<button type="submit" class="btn btn-accent text-lg tracking-wider">Save</button>
